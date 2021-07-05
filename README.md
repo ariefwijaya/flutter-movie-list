@@ -10,4 +10,13 @@ Home Screen            |  Add Tranasctions
 ### Notes
 This Project Architecture was designed for small-medium scale. We will provide the most efficient architecture for large project scale 
 
+## How to build the apps
+You need to create `.env.prod` or `.env.dev.` in the root project to load these required parameters:
+```
+SHOW_LOG=1 
+BASE_URL=http://useyourApi
+API_CONNECT_TIMEOUT=20000
+API_RECEIVE_TIMEOUT=15000
+DEFAULT_PAGINATION_LIMIT=20
+```
 
