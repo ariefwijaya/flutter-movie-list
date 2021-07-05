@@ -26,7 +26,7 @@ List<MovieModel> successResponse() {
         overview:
             "When LexCorp accidentally unleashes a murderous creature, Superman meets his greatest challenge as a champion. Based on the \"The Death of Superman\" storyline that appeared in DC Comics' publications in the 1990s.",
         posterPath: "/itvuWm7DFWWzWgW0xgiaKzzWszP.jpg",
-        releaseDate: DateTime.tryParse("2007-09-18")!,
+        releaseDate:"2007-09-18",
         title: "Superman: Doomsday")
   ];
 }

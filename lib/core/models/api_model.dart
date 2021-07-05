@@ -1,7 +1,7 @@
 ///Response Models from Rest API. Adjust to Backend
 class CApiRes<T> {
   String? errorCode;
-  late String message;
+  String? message;
 
   /// response data. E.g User Data.
   T? results;
@@ -13,7 +13,7 @@ class CApiRes<T> {
     errorCode = (json['errorCode']).toString();
     message = json['message'];
     results = fromJsonT(
-      json['result'],
+      json['results'],
     );
   }
 

@@ -18,8 +18,15 @@ class MovieListRepository {
       List<MovieModel> movelist = <MovieModel>[];
       if (e != null) {
         e.forEach((v) {
-          if(v['poster_path']!=null)
-          v['poster_path'] = "http://image.tmdb.org/t/p/w92/${v['poster_path']}";
+          if (v['poster_path'] != null) {
+            v['poster_path'] =
+                "http://image.tmdb.org/t/p/w92${v['poster_path']}";
+          }
+           if (v['backdrop_path'] != null) {
+            v['backdrop_path'] =
+                "http://image.tmdb.org/t/p/w185${v['backdrop_path']}";
+          }
+
 
           movelist.add(new MovieModel.fromJson(v));
         });

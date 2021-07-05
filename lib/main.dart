@@ -51,7 +51,6 @@ class MyApp extends StatelessWidget {
         theme: ThemeStyle.getAppThemeData(context, appState.themeType),
         onGenerateRoute: Routes.generateRoute,
         debugShowCheckedModeBanner: false);
-        
   }
 }
 

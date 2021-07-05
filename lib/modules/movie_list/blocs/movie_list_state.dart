@@ -9,12 +9,12 @@ abstract class MovieListState extends Equatable {
 
 class MovieListInitial extends MovieListState {}
 
-class MovieListSuccess extends MovieListState {
-  final List<MovieModel> data;
-  const MovieListSuccess(this.data);
+class MovieListListenerSuccess extends MovieListState {
+  final  PagingController<int, MovieModel> pagingController;
+  const MovieListListenerSuccess(this.pagingController);
 
   @override
-  List<Object> get props => [data];
+  List<Object> get props => [pagingController];
 }
 
 // will be added content later

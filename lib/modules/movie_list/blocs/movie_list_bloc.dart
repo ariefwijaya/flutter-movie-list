@@ -10,25 +10,27 @@ part 'movie_list_event.dart';
 part 'movie_list_state.dart';
 
 class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
-  MovieListBloc(this.pagingController) : super(MovieListInitial());
+  MovieListBloc() : super(MovieListInitial());
 
-  final PagingController<int, MovieModel> pagingController;
+   final PagingController<int, MovieModel> pagingController =
+      PagingController(firstPageKey: 1);
   final _movieListRepository = MovieListRepository();
   int _pageSize = 20;
 
-  @override
+
+@override
   Future<void> close() {
-    pagingController.dispose();
+    // pagingController.dispose();
     return super.close();
   }
-
   @override
   Stream<MovieListState> mapEventToState(
     MovieListEvent event,
   ) async* {
     if (event is MovieListFetched) {
       try {
-        final items = await _movieListRepository.getMovie(event.page);
+        final int currentPageKey = (event.page/_pageSize).ceil();
+        final items = await _movieListRepository.getMovie(currentPageKey);
         final isLastPage = items!.length < _pageSize;
         if (isLastPage) {
           pagingController.appendLastPage(items);
@@ -36,7 +38,9 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
           final nextPageKey = event.page + items.length;
           pagingController.appendPage(items, nextPageKey);
         }
-      } catch (error) {
+      } catch (error,s) {
+        print(error);
+        print(s);
         pagingController.error = error;
       }
     }
@@ -45,6 +49,8 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
       pagingController.addPageRequestListener((pageKey) {
         add(MovieListFetched(pageKey));
       });
+
+      yield MovieListListenerSuccess(pagingController);
     }
   }
 }
