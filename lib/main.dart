@@ -1,36 +1,76 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_movie_list/config/themes.dart';
 
-void main() {
-  runApp(MyApp());
+import 'config/app_config.dart';
+import 'config/router.dart';
+import 'core/blocs/app/app_cubit.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env.dev");
+
+  if (AppConfig.showLog) {
+    Bloc.observer = MyBlocObserver();
+  }
+
+  runApp(EasyLocalization(
+        supportedLocales:
+            AppConfig.supportedLanguageList.map((e) => e.toLocale()).toList(),
+        path: "assets/langs",
+        startLocale: AppConfig.defaultLanguage.toLocale(),
+        fallbackLocale: AppConfig.defaultLanguage.toLocale(),
+        useOnlyLangCode: true,
+        child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Xfers Test: Movie List',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AppCubit>(
+          create: (BuildContext context) => AppCubit(),
+        ),
+      ],
+      child: BlocBuilder<AppCubit, AppState>(
+        builder: _buildWithTheme,
       ),
-      home: MyHomePage(title: 'Demo Home Page'),
     );
+  }
+
+  Widget _buildWithTheme(BuildContext context, AppState appState) {
+    return MaterialApp(
+        navigatorKey: GlobalKey<NavigatorState>(),
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: appState.language.toLocale(), 
+        title: AppConfig.appName,
+        theme: ThemeStyle.getAppThemeData(context, appState.themeType),
+        onGenerateRoute: Routes.generateRoute,
+        debugShowCheckedModeBanner: false);
+        
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+class MyBlocObserver extends BlocObserver {
+  @override
+  void onEvent(Bloc? bloc, Object? event) {
+    super.onEvent(bloc!, event);
+    print('onEvent -- bloc: ${bloc.runtimeType}, event: $event');
+  }
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
+  void onTransition(Bloc? bloc, Transition? transition) {
+    super.onTransition(bloc!, transition!);
+    print('onTransition -- bloc: ${bloc.runtimeType}, transition: $transition');
+  }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold();
+  void onError(BlocBase cubit, Object error, StackTrace stackTrace) {
+    print('onError -- cubit: ${cubit.runtimeType}, error: $error');
+    super.onError(cubit, error, stackTrace);
   }
 }
