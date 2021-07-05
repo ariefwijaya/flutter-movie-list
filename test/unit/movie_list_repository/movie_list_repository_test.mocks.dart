@@ -4,7 +4,7 @@
 
 import 'dart:async' as _i3;
 
-import 'package:flutter_movie_list/modules/movie_list/models/movie_list_model.dart'
+import 'package:flutter_movie_list/modules/movie_list/models/movie_model.dart'
     as _i4;
 import 'package:flutter_movie_list/modules/movie_list/repositories/movie_list_repository.dart'
     as _i2;
@@ -26,8 +26,8 @@ class MockMovieListRepository extends _i1.Mock
   }
 
   @override
-  _i3.Future<List<_i4.MovieListModel>?> getMovie(int? page) =>
+  _i3.Future<List<_i4.MovieModel>?> getMovie(int? page) =>
       (super.noSuchMethod(Invocation.method(#getMovie, [page]),
-              returnValue: Future<List<_i4.MovieListModel>?>.value())
-          as _i3.Future<List<_i4.MovieListModel>?>);
+              returnValue: Future<List<_i4.MovieModel>?>.value())
+          as _i3.Future<List<_i4.MovieModel>?>);
 }

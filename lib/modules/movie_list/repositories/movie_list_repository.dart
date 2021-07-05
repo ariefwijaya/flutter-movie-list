@@ -1,12 +1,12 @@
 import 'package:flutter_movie_list/core/constant/api_const.dart';
 import 'package:flutter_movie_list/core/models/api_model.dart';
 import 'package:flutter_movie_list/core/services/network_service.dart';
-import 'package:flutter_movie_list/modules/movie_list/models/movie_list_model.dart';
+import 'package:flutter_movie_list/modules/movie_list/models/movie_model.dart';
 
 class MovieListRepository {
   final NetworkUtils _networkUtils = NetworkUtils();
 
-  Future<List<MovieListModel>?> getMovie(int page) async {
+  Future<List<MovieModel>?> getMovie(int page) async {
     Map<String, dynamic> result = await _networkUtils.get(ApiConst.listMovie,
         body: {
           "api_key": "6753d9119b9627493ae129f3c3c99151",
@@ -14,14 +14,14 @@ class MovieListRepository {
           "page": page
         });
 
-    CApiRes<List<MovieListModel>> response = CApiRes.fromJson(result, (e) {
-      List<MovieListModel> movelist = <MovieListModel>[];
+    CApiRes<List<MovieModel>> response = CApiRes.fromJson(result, (e) {
+      List<MovieModel> movelist = <MovieModel>[];
       if (e != null) {
         e.forEach((v) {
           if(v['poster_path']!=null)
           v['poster_path'] = "http://image.tmdb.org/t/p/w92/${v['poster_path']}";
-          
-          movelist.add(new MovieListModel.fromJson(v));
+
+          movelist.add(new MovieModel.fromJson(v));
         });
       }
       return movelist;
