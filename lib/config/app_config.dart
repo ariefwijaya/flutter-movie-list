@@ -18,14 +18,14 @@ class AppConfig {
   /// This is Base URL for RestFul API
   static String get baseUrl => dotenv.env['BASE_URL'] as String;
   /// Flag to show debug logs when its set to true
-  static bool get showLog => dotenv.env['SHOW_LOG'] as bool;
+  static bool get showLog => int.tryParse(dotenv.env['SHOW_LOG']!) ==1;
   /// Maximum timeout when connect to Restful API
-  static int get apiConnectTimeout => dotenv.env['API_CONNECT_TIMEOUT'] as int;
+  static int? get apiConnectTimeout => int.tryParse(dotenv.env['API_CONNECT_TIMEOUT']!);
   /// Maximum timeout when receiving response from Restful API
-  static int get apiReceiveTimeout => dotenv.env['API_RECEIVE_TIMEOUT'] as int;
+  static int? get apiReceiveTimeout =>int.tryParse(dotenv.env['API_RECEIVE_TIMEOUT']!);
   /// Default Size of pagination if not set
-  static int get defaultPaginationLimit =>
-      dotenv.env['DEFAULT_PAGINATION_LIMIT'] as int;
+  static int? get defaultPaginationLimit =>
+      int.tryParse(dotenv.env['DEFAULT_PAGINATION_LIMIT']!);
   /// Default language for this app localizations.
   /// Default to `id => Bahasa Indonesia` 
   static final LanguageModel defaultLanguage = supportedLanguageList[0];
