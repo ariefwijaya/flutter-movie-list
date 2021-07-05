@@ -9,7 +9,7 @@ class CApiRes<T> {
   CApiRes({this.errorCode, required this.message, this.results});
 
   CApiRes.fromJson(
-      Map<String, dynamic> json, T Function(Object? json) fromJsonT) {
+      Map<String, dynamic> json, T Function(dynamic json) fromJsonT) {
     errorCode = (json['errorCode']).toString();
     message = json['message'];
     results = fromJsonT(
@@ -17,7 +17,7 @@ class CApiRes<T> {
     );
   }
 
-  Map<String, dynamic> toJson(Object Function(T? value) toJsonT) {
+  Map<String, dynamic> toJson(dynamic Function(T? value) toJsonT) {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['errorCode'] = this.errorCode;
     data['message'] = this.message;
